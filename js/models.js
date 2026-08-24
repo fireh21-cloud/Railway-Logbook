@@ -79,7 +79,7 @@ export function newDutyEntry() {
 }
 
 export function newProfile() {
-  return { id: "singleton", name: "" };
+  return { id: "singleton", name: "Tripurari Sharma" };
 }
 
 export function kmFieldLabel(entry) {

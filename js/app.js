@@ -45,24 +45,6 @@ async function seedDefaultsIfNeeded() {
   return profile;
 }
 
-async function maybeShowOnboarding() {
-  const profile = await DB.get("profile", "singleton");
-  if (profile && profile.name) return;
-  const overlay = document.getElementById("onboarding-overlay");
-  const input = document.getElementById("onboarding-name-input");
-  const saveBtn = document.getElementById("onboarding-save-btn");
-  overlay.classList.remove("hidden");
-  await new Promise((resolve) => {
-    saveBtn.onclick = async () => {
-      const name = input.value.trim();
-      if (!name) return;
-      await DB.put("profile", { id: "singleton", name });
-      overlay.classList.add("hidden");
-      resolve();
-    };
-  });
-}
-
 function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js").catch((err) => console.error("SW registration failed", err));
@@ -79,7 +61,6 @@ function wireOpportunisticBackup() {
 
 async function init() {
   await seedDefaultsIfNeeded();
-  await maybeShowOnboarding();
   registerServiceWorker();
   wireOpportunisticBackup();
   await switchTab("duty");
